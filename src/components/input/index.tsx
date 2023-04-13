@@ -1,9 +1,9 @@
-import type { ComponentProps } from 'react';
 import styled from 'styled-components';
 
 type InputSizeType = 'md' | 'sm';
 
-export interface InputProps extends ComponentProps<'input'> {
+export interface InputProps
+  extends React.InputHTMLAttributes<HTMLInputElement> {
   inputSize?: InputSizeType;
 }
 
