@@ -28,6 +28,8 @@ function SenderMessage({ img, name, message, date }: SenderMessageProps) {
 const Wrapper = styled.div`
   display: flex;
   gap: 10px;
+
+  margin: 10px 0;
 `;
 
 const Profile = styled.div`

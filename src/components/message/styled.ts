@@ -10,4 +10,5 @@ export const Message = styled.div`
   border-radius: 10px;
   color: #fff;
   font-size: 14px;
+  line-height: normal;
 `;
