@@ -1,5 +1,3 @@
-import React from 'react';
-
 import ReceiveMessage from '@/components/message/receiver';
 import SenderMessage from '@/components/message/sender';
 

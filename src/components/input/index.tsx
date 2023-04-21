@@ -32,6 +32,10 @@ const Wrapper = styled.input<{ inputSize?: InputSizeType }>`
 
   width: 100%;
   height: ${({ inputSize }) => INPUT_SIZE[inputSize || 'md']}px;
+  color: #fff;
+  font-size: 24px;
+
+  padding: 0 20px;
 `;
 
 export default Input;

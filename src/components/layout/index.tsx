@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 
 interface LayoutProps {
@@ -12,9 +11,6 @@ const Wrapper = styled.div`
   max-width: 475px;
 
   margin: 0 auto;
-
-  background-color: #aaa;
-  padding: 50px 10px;
 `;
 
 export default Layout;

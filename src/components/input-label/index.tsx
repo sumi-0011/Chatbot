@@ -20,9 +20,11 @@ const Label = styled.label`
   font-family: 'Pretendard';
   font-weight: 700;
   font-size: 24px;
-  line-height: 29px;
+  line-height: 30px;
 
   color: #ffffff;
+  display: inline-block;
+  margin-bottom: 10px;
 `;
 
 export default InputLabel;
