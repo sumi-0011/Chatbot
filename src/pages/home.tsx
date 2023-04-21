@@ -15,7 +15,7 @@ function Home() {
   };
 
   const handleLogin = () => {
-    router.push('/dashboard');
+    router.push('/list');
   };
   return (
     <Wrapper>
@@ -38,7 +38,7 @@ function Home() {
         </InputWrapper>
       </div>
       <BottomWrapper>
-        <Button>login</Button>
+        <Button onClick={handleLogin}>login</Button>
         <KeyIssued>KEY 발급받는 방법</KeyIssued>
       </BottomWrapper>
     </Wrapper>
