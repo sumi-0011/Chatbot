@@ -44,6 +44,11 @@ const Wrapper = styled.button<{
     return `
       width: 100%;
       height: 72px;
+
+      font-weight: 700;
+      font-size: 28px;
+
+      color: #101010;
     `;
   }}
 
