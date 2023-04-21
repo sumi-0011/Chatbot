@@ -22,6 +22,8 @@ const Wrapper = styled.button<{
   colorScheme?: ButtonColorSchemaType;
 }>`
   border-radius: 5px;
+  font-weight: 700;
+  color: #101010;
 
   ${({ colorScheme }) => {
     if (colorScheme === 'error') {
@@ -38,17 +40,16 @@ const Wrapper = styled.button<{
     if (size === 'sm') {
       return `
         width: 95px;
-        height : 50px
+        height : 50px;
+
+        font-size: 24px;
       `;
     }
     return `
       width: 100%;
       height: 72px;
 
-      font-weight: 700;
       font-size: 28px;
-
-      color: #101010;
     `;
   }}
 
