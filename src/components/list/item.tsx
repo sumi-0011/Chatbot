@@ -10,7 +10,7 @@ interface ListItemProps {
 }
 
 function ListItem({ content, id }: ListItemProps) {
-  const [isEditModalOpen, setIsEditModalOpen] = useState(true);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const onEditClick = () => {
     setIsEditModalOpen(true);
   };
@@ -23,7 +23,12 @@ function ListItem({ content, id }: ListItemProps) {
       </Button>
 
       {isEditModalOpen && (
-        <EditModal onClose={() => setIsEditModalOpen(false)}></EditModal>
+        <EditModal
+          onClose={() => setIsEditModalOpen(false)}
+          id={0}
+          initName={''}
+          initPeopleCount={''}
+        ></EditModal>
       )}
     </Wrapper>
   );

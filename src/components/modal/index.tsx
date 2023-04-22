@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-interface ModalProps {
+export interface ModalProps {
   onClose: () => void;
 }
 

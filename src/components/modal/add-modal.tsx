@@ -1,10 +1,8 @@
-import type { PropsWithChildren } from 'react';
 import { useRef } from 'react';
 
 import Button from '@/components/button';
 import CloseIcon from '@/components/icon/close';
 import InputLabel from '@/components/input-label';
-import type { ModalProps } from '@/components/modal';
 import {
   ModalBody,
   ModalContainer,
@@ -13,20 +11,12 @@ import {
 } from '@/components/modal';
 import { PointerComponent } from '@/styles/core';
 
-interface EditModalProps extends ModalProps {
-  id: number;
-
-  initName: string;
-  initPeopleCount: string;
+interface Props {
+  onClose: () => void;
 }
-
-function EditModal({
-  onClose,
-  initName,
-  initPeopleCount,
-}: PropsWithChildren<EditModalProps>) {
-  const name = useRef(initName);
-  const peopleCount = useRef(initPeopleCount);
+function AddModal({ onClose }: Props) {
+  const name = useRef('');
+  const peopleCount = useRef('');
 
   const checkValidation = () => {
     if (!name.current) {
@@ -42,16 +32,12 @@ function EditModal({
     return true;
   };
 
-  const onEdit = () => {
+  const onAction = () => {
     checkValidation();
     const editName = name.current;
     const editPeopleCount = peopleCount.current;
 
-    console.log('수정', editName, editPeopleCount);
-  };
-
-  const onDelete = () => {
-    checkValidation();
+    console.log('생성', editName, editPeopleCount);
   };
 
   return (
@@ -73,15 +59,12 @@ function EditModal({
       </ModalBody>
 
       <ModalFooter>
-        <Button size="sm" colorScheme="error" onClick={onDelete}>
-          삭제
-        </Button>
-        <Button size="sm" onClick={onEdit}>
-          수정
+        <Button size="sm" onClick={onAction}>
+          생성
         </Button>
       </ModalFooter>
     </ModalContainer>
   );
 }
 
-export default EditModal;
+export default AddModal;
