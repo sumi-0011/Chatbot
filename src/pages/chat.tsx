@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import BackIcon from '@/components/icon/back';
@@ -9,30 +9,27 @@ import ReceiveMessage from '@/components/message/receiver';
 import SenderMessage from '@/components/message/sender';
 import useChat from '@/hooks/useChat';
 import { PointerComponent } from '@/styles/core';
+import type { ChattingItemType } from '@/utils/chat';
 
 function ChatPage() {
   const router = useRouter();
   const { id } = router.query;
-  const [room, setRoom] = useState({
-    roomId: id,
+  const [room, setRoom] = useState<ChattingItemType>({
+    roomId: String(id),
     roomName: '',
+    peopleCount: '0',
+    messages: [],
   });
 
-  const { submitChat, messages } = useChat({
-    people: 4,
-    roomId: id as string,
-    roomName: room.roomName,
-  });
+  const { submitChat, messages } = useChat(room);
 
   const [sendMessage, setSendMessage] = useState('');
 
-  const scrollRef = useRef<HTMLDivElement | null>(null);
-
   const onSubmit = () => {
     if (sendMessage === '') return;
+    setSendMessage('');
 
     submitChat(sendMessage);
-    setSendMessage(() => '');
   };
 
   const onBackClick = () => {
@@ -56,7 +53,7 @@ function ChatPage() {
         </PointerComponent>
         <h1>{room.roomName}</h1>
       </Header>
-      <MessageContainer ref={scrollRef}>
+      <MessageContainer>
         {messages.map((message, idx) => {
           return (
             <div key={idx}>
@@ -75,6 +72,8 @@ function ChatPage() {
       <ChatInputWrapper>
         <Input
           inputSize="sm"
+          placeholder="메시지를 입력해주세요."
+          value={sendMessage}
           onChange={(e) => setSendMessage(e.target.value)}
         />
         <IconWrapper onClick={onSubmit}>

@@ -4,13 +4,14 @@ import styled from 'styled-components';
 
 import Button from '@/components/button';
 import EditModal from '@/components/modal/edit-modal';
+import type { ChattingItemType } from '@/utils/chat';
 
 interface ListItemProps {
-  content: string;
+  data: ChattingItemType;
   id: string;
 }
 
-function ListItem({ content, id }: ListItemProps) {
+function ListItem({ data, id }: ListItemProps) {
   const router = useRouter();
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const onEditClick = () => {
@@ -23,7 +24,7 @@ function ListItem({ content, id }: ListItemProps) {
 
   return (
     <Wrapper>
-      <Content onClick={onNextClick}>{content}</Content>
+      <Content onClick={onNextClick}>{data.roomName}</Content>
       <Button size="sm" onClick={onEditClick}>
         수정
       </Button>
@@ -31,9 +32,9 @@ function ListItem({ content, id }: ListItemProps) {
       {isEditModalOpen && (
         <EditModal
           onClose={() => setIsEditModalOpen(false)}
-          id={0}
-          initName={''}
-          initPeopleCount={''}
+          id={id}
+          initName={data.roomName}
+          initPeopleCount={data.peopleCount}
         />
       )}
     </Wrapper>

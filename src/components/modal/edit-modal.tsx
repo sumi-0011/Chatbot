@@ -1,5 +1,5 @@
 import type { PropsWithChildren } from 'react';
-import { useRef } from 'react';
+import { useState } from 'react';
 
 import Button from '@/components/button';
 import CloseIcon from '@/components/icon/close';
@@ -12,9 +12,10 @@ import {
   ModalHeader,
 } from '@/components/modal';
 import { PointerComponent } from '@/styles/core';
+import { deleteChatRoom, editChatRoom } from '@/utils/chat';
 
 interface EditModalProps extends ModalProps {
-  id: number;
+  id: string;
 
   initName: string;
   initPeopleCount: string;
@@ -24,17 +25,20 @@ function EditModal({
   onClose,
   initName,
   initPeopleCount,
+  id,
 }: PropsWithChildren<EditModalProps>) {
-  const name = useRef(initName);
-  const peopleCount = useRef(initPeopleCount);
+  // const name = useRef(initName);
+  const [name, setName] = useState(initName);
+  const [peopleCount, setPeopleCount] = useState(initPeopleCount);
+  // const peopleCount = useRef(initPeopleCount);
 
   const checkValidation = () => {
-    if (!name.current) {
+    if (!name) {
       alert('방 이름을 입력해주세요.');
       return false;
     }
 
-    if (!peopleCount.current) {
+    if (!peopleCount) {
       alert('방 인원을 입력해주세요.');
       return false;
     }
@@ -44,14 +48,16 @@ function EditModal({
 
   const onEdit = () => {
     checkValidation();
-    const editName = name.current;
-    const editPeopleCount = peopleCount.current;
+    const editName = name;
+    const editPeopleCount = peopleCount;
 
-    console.log('수정', editName, editPeopleCount);
+    editChatRoom(id, editName, editPeopleCount);
+    onClose();
   };
 
   const onDelete = () => {
     checkValidation();
+    deleteChatRoom(id);
   };
 
   return (
@@ -64,11 +70,15 @@ function EditModal({
       <ModalBody>
         <InputLabel
           label="방 이름"
-          onChange={(e) => (name.current = e.target.value)}
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
         />
         <InputLabel
           label="방 인원"
-          onChange={(e) => (peopleCount.current = e.target.value)}
+          type="number"
+          value={peopleCount}
+          onChange={(e) => setPeopleCount(e.target.value)}
         />
       </ModalBody>
 
