@@ -3,8 +3,34 @@ import type {
   ChatCompletionRequestMessageRoleEnum,
 } from 'openai';
 import { Configuration, OpenAIApi } from 'openai';
-
+interface MessageType {
+  content: string;
+  author: string | number;
+  createdAt: number;
+}
 export const USER = 0;
+export const CHAT_HISTORY_STORAGE_KEY = 'chatting-history';
+
+export const getChatHistoryToStorage = (roomId: string) => {
+  const chatHistory = localStorage.getItem(CHAT_HISTORY_STORAGE_KEY + roomId);
+  if (chatHistory) {
+    return JSON.parse(chatHistory);
+  } else {
+    return null;
+  }
+};
+
+export const setChatHistoryToStorage = (
+  roomId: string,
+  messages: MessageType[],
+) => {
+  const saveMessages = { roomId, messages };
+
+  localStorage.setItem(
+    CHAT_HISTORY_STORAGE_KEY + roomId,
+    JSON.stringify(saveMessages),
+  );
+};
 
 export const ROLE_STRING: Record<
   'USER' | 'ASSISTANT' | 'SYSTEM',

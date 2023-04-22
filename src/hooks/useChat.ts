@@ -3,9 +3,11 @@ import { useEffect, useRef, useState } from 'react';
 
 import {
   getChatBotMessage,
+  getChatHistoryToStorage,
   getOpenAPI,
   getSystemMessage,
   ROLE_STRING,
+  setChatHistoryToStorage,
   USER,
 } from '@/utils/chat';
 
@@ -20,11 +22,15 @@ interface ChatCompletionRequestMessageType {
   content: string;
 }
 
-const useChat = (people: number) => {
+const useChat = (people: number, roomId: string) => {
   const [messages, setMessages] = useState<MessageType[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const API_KEY = useRef('');
+
+  const addMessages = (newMessage: MessageType[]) => {
+    setMessages((prev) => [...prev, ...newMessage]);
+  };
 
   const actionChat = async (message: string) => {
     const openai = getOpenAPI(API_KEY.current);
@@ -58,8 +64,7 @@ const useChat = (people: number) => {
       content: input,
       createdAt: Date.now(),
     };
-
-    setMessages((prev) => [...prev, newMessage]);
+    addMessages([newMessage]);
 
     setIsLoading(true);
 
@@ -80,20 +85,20 @@ const useChat = (people: number) => {
       const receiveMessages = receiveMessageContents.map(
         ({ author, content }) => {
           return {
-            author: author,
+            author: author.substring(1, author.length - 1),
             content: content,
             createdAt: Date.now(),
           };
         },
       );
-      setMessages((prev) => [...prev, ...receiveMessages]);
+      addMessages(receiveMessages);
     } catch (error) {
       const newMessage: MessageType = {
         author: 1,
         content: '오류가 발생했습니다. 다시 시도해주세요.',
         createdAt: Date.now(),
       };
-      setMessages((prev) => [...prev, newMessage]);
+      addMessages([newMessage]);
     } finally {
       setIsLoading(false);
     }
@@ -106,7 +111,18 @@ const useChat = (people: number) => {
     } else {
       alert('API KEY가 없습니다.');
     }
-  }, []);
+
+    const chatHistory = getChatHistoryToStorage(roomId);
+    if (chatHistory) {
+      setMessages(chatHistory.messages);
+    }
+  }, [roomId]);
+
+  useEffect(() => {
+    if (messages.length) {
+      setChatHistoryToStorage(roomId, messages);
+    }
+  }, [messages, roomId]);
 
   return { messages, submitChat, isLoading };
 };
