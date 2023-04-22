@@ -9,10 +9,10 @@ interface InputLabelProps extends InputProps {
 
 function InputLabel({ label, ...rest }: InputLabelProps) {
   return (
-    <>
+    <div>
       <Label>{label}</Label>
       <Input {...rest} />
-    </>
+    </div>
   );
 }
 

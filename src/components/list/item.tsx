@@ -1,6 +1,8 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 
 import Button from '@/components/button';
+import EditModal from '@/components/modal/edit-modal';
 
 interface ListItemProps {
   content: string;
@@ -8,8 +10,9 @@ interface ListItemProps {
 }
 
 function ListItem({ content, id }: ListItemProps) {
+  const [isEditModalOpen, setIsEditModalOpen] = useState(true);
   const onEditClick = () => {
-    console.log(id);
+    setIsEditModalOpen(true);
   };
 
   return (
@@ -18,6 +21,10 @@ function ListItem({ content, id }: ListItemProps) {
       <Button size="sm" onClick={onEditClick}>
         수정
       </Button>
+
+      {isEditModalOpen && (
+        <EditModal onClose={() => setIsEditModalOpen(false)}></EditModal>
+      )}
     </Wrapper>
   );
 }

@@ -24,11 +24,12 @@ const Wrapper = styled.button<{
   border-radius: 5px;
   font-weight: 700;
   color: #101010;
+  cursor: pointer;
 
   ${({ colorScheme }) => {
     if (colorScheme === 'error') {
       return `
-        background: #ff0000;
+        background: #F76969;
       `;
     }
     return `
