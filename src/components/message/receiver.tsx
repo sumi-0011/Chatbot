@@ -5,6 +5,7 @@ import { Message } from '@/components/message/styled';
 
 interface ReceiveMessageProps {
   message: string;
+  date: number;
 }
 function ReceiveMessage({ message }: ReceiveMessageProps) {
   return (

@@ -20,7 +20,10 @@ function ChatPage() {
         return (
           <div key={idx}>
             {message.author === 0 ? (
-              <ReceiveMessage message={message.content} />
+              <ReceiveMessage
+                message={message.content}
+                date={message.createdAt}
+              />
             ) : (
               <SenderMessage
                 img="/assets/images/smiling1.png"

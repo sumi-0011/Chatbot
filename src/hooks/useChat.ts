@@ -52,7 +52,6 @@ const useChat = (people: number) => {
 
   const submitChat = async (input: string) => {
     if (isLoading || !input.length) return;
-    setIsLoading(true);
 
     const newMessage: MessageType = {
       author: USER,
@@ -61,6 +60,8 @@ const useChat = (people: number) => {
     };
 
     setMessages((prev) => [...prev, newMessage]);
+
+    setIsLoading(true);
 
     try {
       const result = await actionChat(input);
@@ -87,20 +88,15 @@ const useChat = (people: number) => {
       );
       setMessages((prev) => [...prev, ...receiveMessages]);
     } catch (error) {
-      handleError();
+      const newMessage: MessageType = {
+        author: 1,
+        content: '오류가 발생했습니다. 다시 시도해주세요.',
+        createdAt: Date.now(),
+      };
+      setMessages((prev) => [...prev, newMessage]);
+    } finally {
+      setIsLoading(false);
     }
-
-    setIsLoading(false);
-  };
-
-  const handleError = () => {
-    const newMessage: MessageType = {
-      author: 1,
-      content: '오류가 발생했습니다. 다시 시도해주세요.',
-      createdAt: Date.now(),
-    };
-    setMessages((prev) => [...prev, newMessage]);
-    setIsLoading(false);
   };
 
   useEffect(() => {

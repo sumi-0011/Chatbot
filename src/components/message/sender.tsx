@@ -8,7 +8,7 @@ interface SenderMessageProps {
   img: string;
   name: string;
   message: string;
-  date: string;
+  date: number;
 }
 
 function SenderMessage({ img, name, message, date }: SenderMessageProps) {
