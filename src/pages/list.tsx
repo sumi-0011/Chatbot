@@ -46,8 +46,12 @@ function ChattingListPage() {
           <PlusIcon />
         </PointerComponent>
       </Header>
-      {list.map(({ roomName, roomId }) => (
-        <ListItem key={roomId} id={roomId} content={roomName} />
+      {list.map((chatroomData) => (
+        <ListItem
+          key={chatroomData.roomId}
+          id={chatroomData.roomId}
+          data={chatroomData}
+        />
       ))}
 
       {isAddModalOpen && (

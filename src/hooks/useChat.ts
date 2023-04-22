@@ -1,6 +1,7 @@
 import type { ChatCompletionRequestMessageRoleEnum } from 'openai';
 import { useEffect, useRef, useState } from 'react';
 
+import type { ChattingItemType } from '@/utils/chat';
 import {
   getChatBotMessage,
   getChatHistoryToStorage,
@@ -28,17 +29,15 @@ interface UseChatReturns {
   submitChat: (input: string) => void;
 }
 
-interface UseChatProps {
-  people: number;
-  roomId: string;
-  roomName: string;
-}
+type UseChatProps = ChattingItemType;
+
 const useChat = ({
-  people,
+  peopleCount,
   roomId,
   roomName,
+  messages: initMessages,
 }: UseChatProps): UseChatReturns => {
-  const [messages, setMessages] = useState<MessageType[]>([]);
+  const [messages, setMessages] = useState<MessageType[]>(initMessages);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const API_KEY = useRef('');
@@ -62,7 +61,7 @@ const useChat = ({
     const completion = await openai.createChatCompletion({
       model: 'gpt-3.5-turbo',
       messages: [
-        getSystemMessage(people - 1),
+        getSystemMessage(parseInt(peopleCount) - 1),
         ...chattingHistory,
         { role: ROLE_STRING.USER, content: message },
       ],
@@ -139,10 +138,10 @@ const useChat = ({
         roomId,
         messages,
         roomName,
-        peopleCount: people,
+        peopleCount: peopleCount,
       });
     }
-  }, [messages, people, roomId, roomName]);
+  }, [messages, peopleCount, roomId, roomName]);
 
   return { messages, submitChat, isLoading };
 };

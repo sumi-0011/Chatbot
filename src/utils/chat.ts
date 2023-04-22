@@ -123,3 +123,29 @@ export const getChatRoomList = () => {
     return [];
   }
 };
+
+export const editChatRoom = (
+  roomId: string,
+  roomName: string,
+  peopleCount: string,
+) => {
+  const chatHistory = getChatHistoryToStorage(roomId);
+  chatHistory.roomName = roomName;
+  chatHistory.peopleCount = peopleCount;
+  setChatHistoryToStorage(chatHistory);
+};
+
+export const deleteChatRoom = (roomId: string) => {
+  localStorage.removeItem(CHAT_HISTORY_STORAGE_KEY + roomId);
+  const chatroomListStr = localStorage.getItem(CHAT_ROOM_LIST_STORAGE_KEY);
+  if (chatroomListStr) {
+    const chatroomIdList = JSON.parse(chatroomListStr);
+    const newChatroomIdList = chatroomIdList.filter(
+      (id: string) => id !== roomId,
+    );
+    localStorage.setItem(
+      CHAT_ROOM_LIST_STORAGE_KEY,
+      JSON.stringify(newChatroomIdList),
+    );
+  }
+};
