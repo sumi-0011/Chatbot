@@ -2,25 +2,30 @@ import Image from 'next/image';
 import React from 'react';
 import styled from 'styled-components';
 
-import { Message } from '@/components/message/styled';
+import { DateWrapperStyled, Message } from '@/components/message/styled';
+import type { MessageType } from '@/utils/chat';
+import { getHHMMFormat } from '@/utils/date';
 
 interface SenderMessageProps {
   img: string;
-  name: string;
-  message: string;
-  date: number;
+  message: MessageType;
 }
 
-function SenderMessage({ img, name, message, date }: SenderMessageProps) {
+function SenderMessage({ img, message }: SenderMessageProps) {
+  const { content, createdAt } = message;
+
   return (
     <Wrapper>
       <Profile>
         <ProfileImage>
           <Image src={img} alt="profile" width={50} height={50} />
         </ProfileImage>
-        <span>{name}</span>
+        <ProfileText>bot {message.author}</ProfileText>
       </Profile>
-      <Message>{message}</Message>
+      <Message>
+        {content}
+        <DateWrapper>{getHHMMFormat(createdAt)}</DateWrapper>
+      </Message>
     </Wrapper>
   );
 }
@@ -29,7 +34,7 @@ const Wrapper = styled.div`
   display: flex;
   gap: 10px;
 
-  margin: 10px 0;
+  margin: 10px 0 30px;
 `;
 
 const Profile = styled.div`
@@ -37,6 +42,12 @@ const Profile = styled.div`
   height: 50px;
   color: #fff;
   text-align: center;
+`;
+
+const ProfileText = styled.span`
+  font-size: 12px;
+  color: #fff;
+  margin-top: 10px;
 `;
 
 const ProfileImage = styled.div`
@@ -50,5 +61,9 @@ const ProfileImage = styled.div`
   img {
     object-fit: cover;
   }
+`;
+
+const DateWrapper = styled(DateWrapperStyled)`
+  left: calc(100% + 5px);
 `;
 export default SenderMessage;

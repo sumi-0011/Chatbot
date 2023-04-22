@@ -3,11 +3,13 @@ import type {
   ChatCompletionRequestMessageRoleEnum,
 } from 'openai';
 import { Configuration, OpenAIApi } from 'openai';
-interface MessageType {
+
+export interface MessageType {
   content: string;
   author: string | number;
   createdAt: number;
 }
+
 export const USER = 0;
 export const CHAT_HISTORY_STORAGE_KEY = 'chatting-history';
 
@@ -16,7 +18,7 @@ export const getChatHistoryToStorage = (roomId: string) => {
   if (chatHistory) {
     return JSON.parse(chatHistory);
   } else {
-    return null;
+    return { roomId, messages: [] };
   }
 };
 
