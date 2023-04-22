@@ -38,6 +38,7 @@ class MyDocument extends Document {
           <link rel="shortcut icon" href="/assets/images/numble.svg" />
           <link rel="apple-touch-icon" href="/assets/images/numble.svg" />
 
+          <meta name="title" content="AI Chat Room" />
           <meta name="description" content="AI Chat Room" />
           <meta name="og:title" content="AI Chat Room" />
           <meta name="og:description" content="AI Chat Room" />
