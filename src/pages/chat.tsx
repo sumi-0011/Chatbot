@@ -7,7 +7,7 @@ import SenderMessage from '@/components/message/sender';
 import useChat from '@/hooks/useChat';
 
 function ChatPage() {
-  const { submitChat, messages } = useChat(4);
+  const { submitChat, messages } = useChat(4, '1');
   console.log('messages: ', messages);
   const sendMessage = useRef('');
   useEffect(() => {
