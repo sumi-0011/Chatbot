@@ -22,11 +22,14 @@ const Wrapper = styled.button<{
   colorScheme?: ButtonColorSchemaType;
 }>`
   border-radius: 5px;
+  font-weight: 700;
+  color: #101010;
+  cursor: pointer;
 
   ${({ colorScheme }) => {
     if (colorScheme === 'error') {
       return `
-        background: #ff0000;
+        background: #F76969;
       `;
     }
     return `
@@ -38,12 +41,16 @@ const Wrapper = styled.button<{
     if (size === 'sm') {
       return `
         width: 95px;
-        height : 50px
+        height : 50px;
+
+        font-size: 24px;
       `;
     }
     return `
       width: 100%;
       height: 72px;
+
+      font-size: 28px;
     `;
   }}
 
