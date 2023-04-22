@@ -22,7 +22,13 @@ interface ChatCompletionRequestMessageType {
   content: string;
 }
 
-const useChat = (people: number, roomId: string) => {
+interface UseChatReturns {
+  messages: MessageType[];
+  isLoading: boolean;
+  submitChat: (input: string) => void;
+}
+
+const useChat = (people: number, roomId: string): UseChatReturns => {
   const [messages, setMessages] = useState<MessageType[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
