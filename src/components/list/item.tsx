@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import styled from 'styled-components';
 
@@ -6,18 +7,23 @@ import EditModal from '@/components/modal/edit-modal';
 
 interface ListItemProps {
   content: string;
-  id: number;
+  id: string;
 }
 
 function ListItem({ content, id }: ListItemProps) {
+  const router = useRouter();
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const onEditClick = () => {
     setIsEditModalOpen(true);
   };
 
+  const onNextClick = () => {
+    router.push(`/chat?id=${id}`);
+  };
+
   return (
     <Wrapper>
-      <span>{content}</span>
+      <Content onClick={onNextClick}>{content}</Content>
       <Button size="sm" onClick={onEditClick}>
         수정
       </Button>
@@ -28,7 +34,7 @@ function ListItem({ content, id }: ListItemProps) {
           id={0}
           initName={''}
           initPeopleCount={''}
-        ></EditModal>
+        />
       )}
     </Wrapper>
   );
@@ -53,4 +59,15 @@ const Wrapper = styled.div`
   }
 `;
 
+const Content = styled.div`
+  flex: 1;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
 export default ListItem;

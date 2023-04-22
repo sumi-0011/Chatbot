@@ -2,11 +2,13 @@ import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
+import BackIcon from '@/components/icon/back';
 import SendIcon from '@/components/icon/send';
 import Input from '@/components/input';
 import ReceiveMessage from '@/components/message/receiver';
 import SenderMessage from '@/components/message/sender';
 import useChat from '@/hooks/useChat';
+import { PointerComponent } from '@/styles/core';
 
 function ChatPage() {
   const router = useRouter();
@@ -18,7 +20,7 @@ function ChatPage() {
 
   const { submitChat, messages } = useChat({
     people: 4,
-    roomId: '1',
+    roomId: id as string,
     roomName: room.roomName,
   });
 
@@ -33,6 +35,10 @@ function ChatPage() {
     setSendMessage(() => '');
   };
 
+  const onBackClick = () => {
+    router.push('/list');
+  };
+
   useEffect(() => {
     window.scrollTo(0, document.body.scrollHeight);
   }, [messages]);
@@ -45,6 +51,9 @@ function ChatPage() {
   return (
     <div>
       <Header>
+        <PointerComponent onClick={onBackClick}>
+          <BackIcon />
+        </PointerComponent>
         <h1>{room.roomName}</h1>
       </Header>
       <MessageContainer ref={scrollRef}>
@@ -82,7 +91,16 @@ const MessageContainer = styled.div`
   overflow: auto;
 `;
 
-const Header = styled.header``;
+const Header = styled.header`
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 29px;
+  padding: 20px;
+  position: fixed;
+  top: 0;
+  display: flex;
+  gap: 20px;
+`;
 const ChatInputWrapper = styled.div`
   width: 100%;
   height: 50px;

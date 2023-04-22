@@ -10,9 +10,16 @@ export interface MessageType {
   createdAt: number;
 }
 
+export interface ChattingItemType {
+  roomName: string;
+  peopleCount: string;
+  messages: MessageType[];
+  roomId: string;
+}
+
 export const USER = 0;
 export const CHAT_HISTORY_STORAGE_KEY = 'room-';
-
+const CHAT_ROOM_LIST_STORAGE_KEY = 'chatroom-list';
 export const getChatHistoryToStorage = (roomId: string) => {
   const chatHistory = localStorage.getItem(CHAT_HISTORY_STORAGE_KEY + roomId);
   if (chatHistory) {
@@ -26,12 +33,11 @@ export const setChatHistoryToStorage = (chatHistory: {
   roomId: string;
   messages: MessageType[];
   roomName: string;
+  peopleCount: string;
 }) => {
-  const saveMessages = chatHistory;
-
   localStorage.setItem(
     CHAT_HISTORY_STORAGE_KEY + chatHistory.roomId,
-    JSON.stringify(saveMessages),
+    JSON.stringify(chatHistory),
   );
 };
 
@@ -73,4 +79,47 @@ export const getOpenAPI = (API_KEY: string) => {
   const openai = new OpenAIApi(config);
 
   return openai;
+};
+
+export const addChatRoom = (roomName: string, peopleCount: string) => {
+  const roomId = String(Date.now());
+  const chatData: ChattingItemType = {
+    roomName,
+    peopleCount: String(peopleCount),
+    messages: [],
+    roomId,
+  };
+
+  setChatHistoryToStorage(chatData);
+
+  const chatroomList = localStorage.getItem(CHAT_ROOM_LIST_STORAGE_KEY);
+  if (chatroomList) {
+    const chatroomListData = JSON.parse(chatroomList);
+    chatroomListData.push(roomId);
+
+    localStorage.setItem(
+      CHAT_ROOM_LIST_STORAGE_KEY,
+      JSON.stringify(chatroomListData),
+    );
+  } else {
+    localStorage.setItem(CHAT_ROOM_LIST_STORAGE_KEY, JSON.stringify([roomId]));
+  }
+
+  return chatData;
+};
+
+export const getChatRoomList = () => {
+  const chatroomListStr = localStorage.getItem(CHAT_ROOM_LIST_STORAGE_KEY);
+  if (chatroomListStr) {
+    const chatroomIdList = JSON.parse(chatroomListStr);
+
+    const chatroomList = chatroomIdList.map((roomId: string) => {
+      const chatroom = getChatHistoryToStorage(roomId);
+      return chatroom;
+    });
+
+    return chatroomList;
+  } else {
+    return [];
+  }
 };

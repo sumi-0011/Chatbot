@@ -135,9 +135,14 @@ const useChat = ({
 
   useEffect(() => {
     if (messages.length) {
-      setChatHistoryToStorage({ roomId, messages, roomName });
+      setChatHistoryToStorage({
+        roomId,
+        messages,
+        roomName,
+        peopleCount: people,
+      });
     }
-  }, [messages, roomId, roomName]);
+  }, [messages, people, roomId, roomName]);
 
   return { messages, submitChat, isLoading };
 };

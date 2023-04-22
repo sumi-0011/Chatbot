@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import NumbleLogo from '@/components/icon/numble';
@@ -6,24 +6,38 @@ import PlusIcon from '@/components/icon/plus';
 import ListItem from '@/components/list/item';
 import AddModal from '@/components/modal/add-modal';
 import { PointerComponent } from '@/styles/core';
+import type { ChattingItemType } from '@/utils/chat';
+import { getChatRoomList } from '@/utils/chat';
+import { addChatRoom } from '@/utils/chat';
 
 const LIST = [
   {
     id: 1,
-    content: '넘블 모여라',
+    name: '넘블 모여라',
   },
   {
     id: 3,
-    content: '넘블 모여라',
+    name: '넘블 모여라',
   },
   {
     id: 2,
-    content: '넘블 모여라',
+    name: '넘블 모여라',
   },
 ];
 
 function ChattingListPage() {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [list, setList] = useState<ChattingItemType[]>([]);
+
+  const addList = (roomName: string, peopleCount: string) => {
+    const chatData = addChatRoom(roomName, peopleCount);
+    setList((prev) => [...prev, chatData]);
+  };
+
+  useEffect(() => {
+    setList(getChatRoomList());
+  }, []);
+
   return (
     <div>
       <Header>
@@ -32,11 +46,13 @@ function ChattingListPage() {
           <PlusIcon />
         </PointerComponent>
       </Header>
-      {LIST.map(({ content, id }) => (
-        <ListItem key={id} id={id} content={content} />
+      {list.map(({ roomName, roomId }) => (
+        <ListItem key={roomId} id={roomId} content={roomName} />
       ))}
 
-      {isAddModalOpen && <AddModal onClose={() => setIsAddModalOpen(false)} />}
+      {isAddModalOpen && (
+        <AddModal onAction={addList} onClose={() => setIsAddModalOpen(false)} />
+      )}
     </div>
   );
 }
