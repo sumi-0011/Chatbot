@@ -5,6 +5,7 @@ import styled from 'styled-components';
 
 import Button from '@/components/button';
 import InputLabel from '@/components/input-label';
+import { setAPIKeyToStorage } from '@/utils/chat';
 
 function Home() {
   const router = useRouter();
@@ -15,8 +16,16 @@ function Home() {
   };
 
   const handleLogin = () => {
+    const validAPIKeyRegex = /^[-0-9A-z]{51}$/;
+    if (!apiKey.match(validAPIKeyRegex)) {
+      alert('API KEY를 확인해주세요.');
+      return;
+    }
+    setAPIKeyToStorage(apiKey);
+
     router.push('/list');
   };
+
   return (
     <Wrapper>
       <div>

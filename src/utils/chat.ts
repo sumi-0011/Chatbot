@@ -20,6 +20,12 @@ export interface ChattingItemType {
 export const USER = 0;
 export const CHAT_HISTORY_STORAGE_KEY = 'room-';
 const CHAT_ROOM_LIST_STORAGE_KEY = 'chatroom-list';
+export const API_STORAGE_KEY = 'open-api-key';
+
+export const setAPIKeyToStorage = (API_KEY: string) => {
+  localStorage.setItem(API_STORAGE_KEY, API_KEY);
+};
+
 export const getChatHistoryToStorage = (roomId: string) => {
   const chatHistory = localStorage.getItem(CHAT_HISTORY_STORAGE_KEY + roomId);
   if (chatHistory) {
