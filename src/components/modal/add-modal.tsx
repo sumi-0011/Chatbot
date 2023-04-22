@@ -11,10 +11,11 @@ import {
 } from '@/components/modal';
 import { PointerComponent } from '@/styles/core';
 
-interface Props {
+interface AddModalProps {
   onClose: () => void;
+  onAction: (name: string, peopleCount: string) => void;
 }
-function AddModal({ onClose }: Props) {
+function AddModal({ onClose, onAction }: AddModalProps) {
   const name = useRef('');
   const peopleCount = useRef('');
 
@@ -32,12 +33,13 @@ function AddModal({ onClose }: Props) {
     return true;
   };
 
-  const onAction = () => {
+  const handleAction = () => {
     checkValidation();
     const editName = name.current;
     const editPeopleCount = peopleCount.current;
 
-    console.log('생성', editName, editPeopleCount);
+    onAction(editName, editPeopleCount);
+    onClose();
   };
 
   return (
@@ -59,7 +61,7 @@ function AddModal({ onClose }: Props) {
       </ModalBody>
 
       <ModalFooter>
-        <Button size="sm" onClick={onAction}>
+        <Button size="sm" onClick={handleAction}>
           생성
         </Button>
       </ModalFooter>
