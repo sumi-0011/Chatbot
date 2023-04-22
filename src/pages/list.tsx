@@ -1,8 +1,11 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 
 import NumbleLogo from '@/components/icon/numble';
 import PlusIcon from '@/components/icon/plus';
 import ListItem from '@/components/list/item';
+import AddModal from '@/components/modal/add-modal';
+import { PointerComponent } from '@/styles/core';
 
 const LIST = [
   {
@@ -20,15 +23,20 @@ const LIST = [
 ];
 
 function ChattingListPage() {
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   return (
     <div>
       <Header>
         <NumbleLogo />
-        <PlusIcon />
+        <PointerComponent onClick={() => setIsAddModalOpen(true)}>
+          <PlusIcon />
+        </PointerComponent>
       </Header>
       {LIST.map(({ content, id }) => (
         <ListItem key={id} id={id} content={content} />
       ))}
+
+      {isAddModalOpen && <AddModal onClose={() => setIsAddModalOpen(false)} />}
     </div>
   );
 }
