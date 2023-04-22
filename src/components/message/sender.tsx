@@ -18,7 +18,12 @@ function SenderMessage({ img, message }: SenderMessageProps) {
     <Wrapper>
       <Profile>
         <ProfileImage>
-          <Image src={img} alt="profile" width={50} height={50} />
+          <Image
+            src={'/assets/images/smiling' + message.author + '.png'}
+            alt="profile"
+            width={50}
+            height={50}
+          />
         </ProfileImage>
         <ProfileText>bot {message.author}</ProfileText>
       </Profile>
