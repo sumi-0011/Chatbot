@@ -11,21 +11,25 @@ interface SenderMessageProps {
   message: MessageType;
 }
 
-function SenderMessage({ img, message }: SenderMessageProps) {
-  const { content, createdAt } = message;
+function SenderMessage({ message }: SenderMessageProps) {
+  const { content, createdAt, author } = message;
+
+  if (content === '') {
+    return <></>;
+  }
 
   return (
     <Wrapper>
       <Profile>
         <ProfileImage>
           <Image
-            src={'/assets/images/smiling' + message.author + '.png'}
+            src={'/assets/images/smiling' + author + '.png'}
             alt="profile"
             width={50}
             height={50}
           />
         </ProfileImage>
-        <ProfileText>bot {message.author}</ProfileText>
+        <ProfileText>bot {author}</ProfileText>
       </Profile>
       <Message>
         {content}

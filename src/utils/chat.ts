@@ -11,7 +11,7 @@ export interface MessageType {
 }
 
 export const USER = 0;
-export const CHAT_HISTORY_STORAGE_KEY = 'chatting-history';
+export const CHAT_HISTORY_STORAGE_KEY = 'room-';
 
 export const getChatHistoryToStorage = (roomId: string) => {
   const chatHistory = localStorage.getItem(CHAT_HISTORY_STORAGE_KEY + roomId);
@@ -22,14 +22,15 @@ export const getChatHistoryToStorage = (roomId: string) => {
   }
 };
 
-export const setChatHistoryToStorage = (
-  roomId: string,
-  messages: MessageType[],
-) => {
-  const saveMessages = { roomId, messages };
+export const setChatHistoryToStorage = (chatHistory: {
+  roomId: string;
+  messages: MessageType[];
+  roomName: string;
+}) => {
+  const saveMessages = chatHistory;
 
   localStorage.setItem(
-    CHAT_HISTORY_STORAGE_KEY + roomId,
+    CHAT_HISTORY_STORAGE_KEY + chatHistory.roomId,
     JSON.stringify(saveMessages),
   );
 };

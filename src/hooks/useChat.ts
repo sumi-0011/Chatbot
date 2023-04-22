@@ -28,7 +28,16 @@ interface UseChatReturns {
   submitChat: (input: string) => void;
 }
 
-const useChat = (people: number, roomId: string): UseChatReturns => {
+interface UseChatProps {
+  people: number;
+  roomId: string;
+  roomName: string;
+}
+const useChat = ({
+  people,
+  roomId,
+  roomName,
+}: UseChatProps): UseChatReturns => {
   const [messages, setMessages] = useState<MessageType[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -126,9 +135,9 @@ const useChat = (people: number, roomId: string): UseChatReturns => {
 
   useEffect(() => {
     if (messages.length) {
-      setChatHistoryToStorage(roomId, messages);
+      setChatHistoryToStorage({ roomId, messages, roomName });
     }
-  }, [messages, roomId]);
+  }, [messages, roomId, roomName]);
 
   return { messages, submitChat, isLoading };
 };
